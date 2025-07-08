@@ -3,7 +3,6 @@
         android:id="@+id/nav_scan"
         android:title="Scan"
         android:icon="@android:drawable/ic_menu_camera" />
-
     <item
         android:id="@+id/nav_history"
         android:title="Riwayat"
