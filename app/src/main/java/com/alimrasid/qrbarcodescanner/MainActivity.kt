@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -18,15 +19,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        db = AppDatabase.getDatabase(this)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, ScanFragment())
+            .commit()
 
-        findViewById<Button>(R.id.btnScan).setOnClickListener {
-            val intent = Intent(this, ScanActivity::class.java)
-            startActivityForResult(intent, 100)
-        }
-
-        findViewById<Button>(R.id.btnHistory).setOnClickListener {
-            startActivity(Intent(this, HistoryActivity::class.java))
+        val nav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        nav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_scan -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, ScanFragment())
+                        .commit()
+                    true
+                }
+                R.id.nav_history -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, HistoryFragment())
+                        .commit()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
