@@ -1,9 +1,13 @@
 package com.alimrasid.qrbarcodescanner
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -28,7 +32,11 @@ class HistoryAdapter(private val items: List<ScanHistory>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.tvContent.text = item.content
-        holder.tvDate.text = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
-            .format(Date(item.date))
+        holder.itemView.setOnClickListener {
+            val clipboard = holder.itemView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Scan Result", item.content)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(holder.itemView.context, "Teks disalin ke clipboard", Toast.LENGTH_SHORT).show()
+        }
     }
 }
