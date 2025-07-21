@@ -32,6 +32,11 @@ class HistoryAdapter(private val items: List<ScanHistory>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.tvContent.text = item.content
+
+        holder.tvContent.text = item.content
+        holder.tvDate.text = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
+            .format(Date(item.date))
+
         holder.itemView.setOnClickListener {
             val clipboard = holder.itemView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("Scan Result", item.content)
